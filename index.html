@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L'TAVOLA | Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --gold-accent: #b2945e;
+      --font-heading: 'Marcellus', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none !important; outline: none; }
+    
+    body, html { width: 100%; background-color: #1a1a1a; font-family: var(--font-body) !important; color: #fff; scroll-behavior: smooth; }
+
+    .navbar { 
+        position: absolute; top: 0; width: 100%; padding: 45px 5%; 
+        display: flex; justify-content: space-between; align-items: center; z-index: 1000; 
+    }
+    .nav-logo { font-family: var(--font-heading) !important; font-size: 1.2rem; letter-spacing: 6px; color: #fff !important; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; }
+    
+    .nav-text { 
+        font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #fff !important; 
+        margin-left: 30px; font-weight: 500; cursor: pointer; transition: 0.3s; opacity: 1;
+    }
+    .nav-text:hover { color: var(--gold-accent) !important; }
+    
+    .lang-btn { 
+        background: transparent; border: 1px solid #fff; color: #fff !important; 
+        font-size: 0.55rem; padding: 6px 12px; cursor: pointer; margin-left: 30px; 
+        font-family: var(--font-body) !important; transition: 0.3s;
+    }
+    .lang-btn:hover { background: #fff; color: #000 !important; }
+
+    .hero-full { 
+        height: 100vh; width: 100%; position: relative;
+        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                    url('imagini-galerie/5.png') center/cover;
+        display: flex; align-items: center; justify-content: center; text-align: center;
+    }
+    .hero-content { color: #fff; z-index: 2; margin-top: -50px; }
+    .hero-brand-bold { font-family: var(--font-heading) !important; font-size: clamp(3rem, 12vw, 7.5rem); letter-spacing: 20px; text-transform: uppercase; color: #fff !important; }
+    .hero-sep { width: 80px; height: 1px; background: var(--gold-accent); margin: 30px auto; }
+    .hero-est { font-size: 1rem; letter-spacing: 6px; text-transform: uppercase; color: #fff !important; opacity: 1; }
+
+    .hero-bottom-cue {
+        position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+        display: flex; flex-direction: column; align-items: center; z-index: 10;
+    }
+    .cue-links { display: flex; gap: 20px; align-items: center; margin-bottom: 15px; }
+    .cue-link { 
+        font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; 
+        color: #fff !important; cursor: pointer; opacity: 1; transition: 0.3s; font-weight: 500;
+    }
+    .cue-link:hover { color: var(--gold-accent) !important; }
+    .cue-dot { font-size: 0.5rem; color: var(--gold-accent); }
+    
+    .cue-line { width: 1px; height: 40px; background: rgba(255,255,255,0.4); position: relative; overflow: hidden; }
+    .cue-line::after {
+        content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%;
+        background: #fff; animation: dropLine 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+    }
+    @keyframes dropLine {
+        0% { transform: translateY(-100%); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(200%); opacity: 0; }
+    }
+
+    .events-strip { padding: 120px 5%; text-align: center; background: #1a1a1a; border-top: 1px solid rgba(255,255,255,0.05); }
+    .events-strip h2 { font-family: var(--font-heading) !important; font-size: 1.5rem; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 20px; color: #fff; }
+    .events-btn { font-size: 0.7rem; letter-spacing: 3px; color: var(--gold-accent); text-transform: uppercase; cursor: pointer; border-bottom: 1px solid var(--gold-accent); padding-bottom: 5px; transition: 0.3s; }
+    .events-btn:hover { color: #fff; border-color: #fff; }
+
+    .footer-main { 
+        padding: 120px 10% 80px; background: #121212; 
+        display: flex; justify-content: space-around; align-items: flex-start; 
+        border-top: 1px solid rgba(255,255,255,0.03); text-align: center;
+    }
+    .footer-col { flex: 1; margin: 0 20px; max-width: 300px; }
+    .footer-col h4 { font-family: var(--font-heading) !important; font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold-accent); margin-bottom: 30px; }
+    .footer-col p { font-size: 0.75rem; color: #888; line-height: 2.2; letter-spacing: 1px; }
+    .footer-bottom { background: #121212; padding: 0 5% 40px; text-align: center; font-size: 0.5rem; letter-spacing: 3px; color: #444; text-transform: uppercase; }
+
+    .modal-overlay {
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(10, 10, 10, 0.85); z-index: 2000; justify-content: center; align-items: center;
+        opacity: 0; transition: opacity 0.5s ease; backdrop-filter: blur(10px);
+    }
+    .modal-overlay.show { display: flex; opacity: 1; }
+    
+    .modal-box {
+        background: #ffffff; color: #000; padding: 70px 60px; text-align: center; 
+        max-width: 500px; width: 90%; transform: translateY(30px); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        position: relative; border-radius: 1px; box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    }
+    .modal-box::after { content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; border: 1px solid rgba(0,0,0,0.06); pointer-events: none; }
+    .modal-overlay.show .modal-box { transform: translateY(0); }
+    .modal-close { position: absolute; top: 20px; right: 25px; font-size: 2.2rem; cursor: pointer; color: #aaa; transition: 0.3s; z-index: 10;}
+    .modal-close:hover { color: #000; }
+    .modal-monogram { font-family: var(--font-heading) !important; color: var(--gold-accent); font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 25px; }
+    .modal-box h2 { font-family: var(--font-heading) !important; font-size: 1.6rem; letter-spacing: 6px; text-transform: uppercase; margin-bottom: 25px; color: #111; }
+    .modal-box p { font-size: 0.75rem; color: #666; line-height: 2; margin-bottom: 40px; }
+    .email-link { font-family: var(--font-heading) !important; font-size: 1.1rem; color: #000 !important; letter-spacing: 2px; border-bottom: 1px solid var(--gold-accent); padding-bottom: 5px; }
+
+    /* OPTIMIZARE MOBIL REPARATĂ PENTRU FOOTER ȘI NAVBAR */
+    @media (max-width: 600px) {
+        .navbar { padding: 25px 5%; flex-direction: column; gap: 15px; align-items: center; text-align: center; }
+        .nav-links { gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%; }
+        .nav-text, .lang-btn { margin-left: 0 !important; margin: 0 10px !important; font-size: 0.55rem; }
+        .lang-btn { padding: 4px 10px; }
+        
+        .hero-brand-bold { font-size: 3.5rem !important; letter-spacing: 10px !important; }
+        .hero-est { font-size: 0.7rem; letter-spacing: 3px; }
+        
+        .hero-bottom-cue { bottom: 25px; width: 100%; }
+        .cue-links { gap: 15px; }
+        
+        /* ALINIERE FOOTER REPARATĂ */
+        .footer-main { 
+            flex-direction: column !important; 
+            align-items: center !important; 
+            text-align: center !important; 
+            padding: 60px 5% 40px !important; 
+            gap: 40px !important; 
+        }
+        .footer-col { 
+            margin: 0 auto !important; 
+            max-width: 100% !important; 
+        }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">L'TAVOLA</a>
+    <div class="nav-links">
+      <a href="concept.html" class="nav-text" data-ro="Concept" data-en="Concept">Concept</a>
+      <a href="menu.html" class="nav-text" data-ro="Meniu" data-en="Menu">Meniu</a>
+      <button id="lang-switch" class="lang-btn">EN</button>
+      <a href="#rezervare" id="open-rezerva" class="nav-text" data-ro="Rezervă" data-en="Book">Rezervă</a>
+    </div>
+  </nav>
+
+  <header class="hero-full">
+    <div class="hero-content">
+      <h1 class="hero-brand-bold">L'TAVOLA</h1>
+      <div class="hero-sep"></div>
+      <p class="hero-est" data-ro="PRIVATE DINING • EST. 2026" data-en="PRIVATE DINING • EST. 2026">PRIVATE DINING • EST. 2026</p>
+    </div>
+    <div class="hero-bottom-cue">
+        <div class="cue-links">
+            <a href="#sectiune-evenimente" class="cue-link" data-ro="Evenimente" data-en="Events">Evenimente</a>
+            <span class="cue-dot">•</span>
+            <a href="#sectiune-footer" class="cue-link" data-ro="Contact" data-en="Contact">Contact</a>
+        </div>
+        <div class="cue-line"></div>
+    </div>
+  </header>
+
+  <section id="sectiune-evenimente" class="events-strip">
+    <h2 data-ro="Evenimente Private" data-en="Private Events">Evenimente Private</h2>
+    <span class="events-btn" id="open-events" data-ro="Detalii Organizare" data-en="Planning Details">Detalii Organizare</span>
+  </section>
+
+  <footer id="sectiune-footer" class="footer-main">
+    <div class="footer-col">
+      <h4 data-ro="Program" data-en="Hours">Program</h4>
+      <p data-ro="Marți — Duminică" data-en="Tuesday — Sunday">Marți — Duminică</p>
+      <p>18:00 — 23:00</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-ro="Locație" data-en="Location">Locație</h4>
+      <p>Strada Exemplu Nr. 12</p>
+      <p>București, România</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-ro="Acces" data-en="Access">Acces</h4>
+      <p data-ro="Parcare privată disponibilă exclusiv pentru oaspeții noștri." data-en="Private parking available exclusively for our guests.">Parcare privată disponibilă exclusiv pentru oaspeții noștri.</p>
+    </div>
+  </footer>
+  <div class="footer-bottom">© 2026 L'TAVOLA • ALL RIGHTS RESERVED</div>
+
+  <div id="modal-rezerva" class="modal-overlay">
+    <div class="modal-box">
+      <span class="modal-close">&times;</span>
+      <div class="modal-monogram">L'T</div>
+      <h2 data-ro="Rezervare & Contact" data-en="Booking & Contact">Rezervare & Contact</h2>
+      <p data-ro="Pentru a proteja intimitatea experienței L'TAVOLA, preluăm solicitările de rezervare exclusiv prin corespondență electronică." data-en="To protect the intimacy of the L'TAVOLA experience, we process booking requests exclusively via email.">Pentru a proteja intimitatea experienței L'TAVOLA, preluăm solicitările de rezervare exclusiv prin corespondență electronică.</p>
+      <a href="mailto:reservations@ltavola.com" class="email-link">reservations@ltavola.com</a>
+    </div>
+  </div>
+
+  <div id="modal-events" class="modal-overlay">
+    <div class="modal-box">
+      <span class="modal-close">&times;</span>
+      <div class="modal-monogram">L'T</div>
+      <h2 data-ro="Evenimente" data-en="Events">Evenimente</h2>
+      <p data-ro="Transformăm spațiul nostru în decorul perfect pentru cine de afaceri sau aniversări restrânse (max. 12 oaspeți)." data-en="We transform our space into the perfect setting for business dinners or intimate anniversaries (max 12 guests).">Transformăm spațiul nostru în decorul perfect pentru cine de afaceri sau aniversări restrânse (max. 12 oaspeți).</p>
+      <a href="mailto:events@ltavola.com" class="email-link">events@ltavola.com</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('lang-switch').addEventListener('click', function() {
+        const isRo = this.innerText === 'EN';
+        this.innerText = isRo ? 'RO' : 'EN';
+        document.querySelectorAll('[data-ro]').forEach(el => {
+            el.innerText = el.getAttribute('data-' + (isRo ? 'en' : 'ro'));
+        });
+    });
+
+    const setupModal = (idOpen, idModal) => {
+        const btn = document.getElementById(idOpen);
+        const modal = document.getElementById(idModal);
+        if(!btn || !modal) return;
+        btn.addEventListener('click', (e) => { e.preventDefault(); modal.classList.add('show'); });
+        modal.querySelector('.modal-close').onclick = () => modal.classList.remove('show');
+        window.addEventListener('click', (e) => { if(e.target == modal) modal.classList.remove('show'); });
+    };
+
+    setupModal('open-rezerva', 'modal-rezerva');
+    setupModal('open-events', 'modal-events');
+  </script>
+</body>
+</html>

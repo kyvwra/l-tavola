@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONCEPT | L'TAVOLA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { 
+        --gold: #b2945e; 
+        --font-heading: 'Marcellus', serif; 
+        --font-body: 'Montserrat', sans-serif;
+        --bg-dark: #1a1a1a; 
+    }
+    
+    /* RESET */
+    * { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none !important; }
+    body { background-color: var(--bg-dark); font-family: var(--font-body); color: #fff; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+    /* NAVBAR FIXĂ */
+    .navbar { position: fixed; top: 0; width: 100%; padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(26, 26, 26, 0.95); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-logo { font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 5px; color: #fff; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; }
+    .nav-text { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: #fff; margin-left: 25px; font-weight: 500; transition: 0.3s; }
+    .nav-text:hover { color: var(--gold); }
+    .lang-btn { background: transparent; border: 1px solid #fff; padding: 5px 10px; cursor: pointer; font-size: 0.55rem; margin-left: 20px; color: #fff; transition: 0.3s; }
+    .lang-btn:hover { background: #fff; color: #000; }
+
+    /* HERO */
+    .concept-hero { 
+        padding-top: 180px; padding-bottom: 80px; text-align: center; background: #1a1a1a;
+    }
+    .hero-subtitle { font-size: 0.65rem; letter-spacing: 8px; color: var(--gold); text-transform: uppercase; margin-bottom: 15px; }
+    .hero-title { font-family: var(--font-heading); font-size: clamp(2rem, 10vw, 3.5rem); letter-spacing: 12px; text-transform: uppercase; color: #fff; }
+
+    /* GRID DE CONCEPT (Fără imagini pentru viteză) */
+    .concept-container { max-width: 800px; margin: 0 auto; padding: 0 5% 100px; text-align: center; }
+    
+    .concept-section { margin-bottom: 100px; }
+    .concept-section h2 { font-family: var(--font-heading); font-size: 2rem; color: var(--gold); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 4px; }
+    .concept-section p { font-size: 1rem; line-height: 2.2; color: #aaa; font-weight: 300; letter-spacing: 0.5px; }
+
+    /* QUOTE SECTION */
+    .quote-section { padding: 80px 10%; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 100px; }
+    .quote-section p { font-family: var(--font-heading); font-size: 1.6rem; color: #fff; font-style: italic; opacity: 0.9; max-width: 700px; margin: 0 auto; line-height: 1.5; }
+
+    /* ACTION BUTTON */
+    .final-action { text-align: center; padding-bottom: 100px; }
+    .btn-gold {
+        background: transparent; border: 1px solid var(--gold); color: var(--gold);
+        padding: 18px 45px; font-family: var(--font-heading); font-size: 0.9rem; letter-spacing: 4px;
+        text-transform: uppercase; cursor: pointer; transition: 0.4s;
+    }
+    .btn-gold:hover { background: var(--gold); color: #1a1a1a; }
+
+    /* MODAL GALERIE */
+    .gallery-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); opacity: 0; transition: 0.5s; justify-content: center; align-items: center; }
+    .gallery-modal.show { display: flex; opacity: 1; }
+    .slideshow-container { width: 85%; height: 80vh; position: relative; display: flex; justify-content: center; align-items: center; }
+    .slide { position: absolute; opacity: 0; transition: opacity 1s ease-in-out; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; pointer-events: none; }
+    .slide.active { opacity: 1; pointer-events: auto; }
+    .slide img { max-height: 100%; max-width: 100%; object-fit: contain; }
+    .close-btn { position: absolute; top: 30px; right: 30px; color: var(--gold); font-size: 40px; cursor: pointer; }
+    .prev, .next { position: absolute; top: 50%; color: var(--gold); font-size: 40px; cursor: pointer; padding: 20px; transform: translateY(-50%); z-index: 3000; user-select: none; }
+    .prev { left: -60px; } .next { right: -60px; }
+
+    footer { padding: 60px 0; text-align: center; opacity: 0.3; font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.05); }
+
+    /* OPTIMIZARE MOBIL REPARATĂ */
+    @media (max-width: 850px) {
+        .navbar { padding: 20px 5% !important; flex-direction: column !important; align-items: center !important; gap: 15px !important; text-align: center !important; }
+        .nav-logo { margin-bottom: 5px !important; }
+        .nav-links { justify-content: center !important; width: 100% !important; }
+        .nav-text, .lang-btn { margin-left: 0 !important; margin: 0 15px !important; }
+        
+        .concept-hero { padding-top: 140px !important; }
+        .hero-title { font-size: 2.2rem !important; letter-spacing: 8px !important; }
+        
+        .concept-section h2 { font-size: 1.5rem !important; }
+        .concept-section p { font-size: 0.95rem !important; line-height: 1.8 !important; }
+        
+        .quote-section p { font-size: 1.2rem !important; }
+        
+        .prev, .next { font-size: 30px; }
+        .prev { left: 0; } .next { right: 0; }
+        .slideshow-container { width: 95%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">L'TAVOLA</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-text" data-ro="Acasă" data-en="Home">Acasă</a>
+      <a href="menu.html" class="nav-text" data-ro="Meniu" data-en="Menu">Meniu</a>
+      <button id="lang-switch" class="lang-btn">EN</button>
+    </div>
+  </nav>
+
+  <header class="concept-hero">
+    <div class="hero-subtitle" data-ro="Filozofia Noastră" data-en="Our Philosophy">Filozofia Noastră</div>
+    <h1 class="hero-title" data-ro="CONCEPT" data-en="CONCEPT">CONCEPT</h1>
+  </header>
+
+  <main class="concept-container">
+    
+    <div class="concept-section">
+        <h2 data-ro="Rădăcini și Timp" data-en="Roots and Time">Rădăcini și Timp</h2>
+        <p data-ro="Povestea noastră nu a început în bucătărie, ci în jurul meselor lungi de duminică din inima Italiei, unde timpul se oprea în loc pentru a lăsa aromele să vorbească. L'TAVOLA s-a născut din dorința de a recupera acea liniște pierdută a cinei. Într-o epocă a vitezei, noi am ales să onorăm 'Arta de a Aștepta', transformând Private Dining-ul într-un sanctuar al discreției." 
+           data-en="Our story didn't begin in a kitchen, but around the long Sunday tables in the heart of Italy, where time stood still to let flavors speak. L'TAVOLA was born from the desire to reclaim that lost silence of dinner. In an age of speed, we chose to honor the 'Art of Waiting', transforming Private Dining into a sanctuary of discretion.">
+           Povestea noastră nu a început în bucătărie, ci în jurul meselor lungi de duminică din inima Italiei, unde timpul se oprea în loc pentru a lăsa aromele să vorbească. L'TAVOLA s-a născut din dorința de a recupera acea liniște pierdoută a cinei. Într-o epocă a vitezei, noi am ales să onorăm 'Arta de a Aștepta', transformând Private Dining-ul într-un sanctuar al discreției.
+        </p>
+    </div>
+
+    <div class="quote-section">
+        <p data-ro="„Gastronomia este singura formă de artă care se adresează tuturor simțurilor simultan; este puntea fragilă între pământul care ne hrănește și amintirile care ne definesc.”"
+           data-en='"Gastronomy is the only form of art that addresses all senses simultaneously; it is the fragile bridge between the earth that feeds us and the memories that define us."'>
+           „Gastronomia este singura formă de artă care se adresează tuturor simțurilor simultan; este puntea fragilă între pământul care ne hrănește și amintirile care ne definesc.”
+        </p>
+    </div>
+
+    <div class="concept-section">
+        <h2 data-ro="Alchimia Ingredientului" data-en="The Alchemy of Ingredients">Alchimia Ingredientului</h2>
+        <p data-ro="Istoria gustului nostru este scrisă în fiecare dimineață. Colaborăm cu mici ferme artizanale care păstrează tehnici de cultivare vechi de secole, aducând în farfurie ingrediente care poartă în ele soarele și pământul. Intervenim asupra lor cu o rigoare aproape arhitecturală, dar cu un singur scop: să lăsăm puritatea să rămână ecoul final al fiecărei degustări." 
+           data-en="The history of our taste is written every morning. We collaborate with small artisan farms that preserve centuries-old cultivation techniques, bringing to the plate ingredients that carry the sun and the earth within them. We treat them with almost architectural rigor, but with a single purpose: to let purity remain the final echo of every tasting.">
+           Istoria gustului nostru este scrisă în fiecare dimineață. Colaborăm cu mici ferme artizanale care păstrează tehnici de cultivare vechi de secole, aducând în farfurie ingrediente care poartă în ele soarele și pământul. Intervenim asupra lor cu o rigoare aproape arhitecturală, dar cu un singur scop: să lăsăm puritatea să rămână ecoul final al fiecărei degustări.
+        </p>
+    </div>
+
+    <div class="final-action">
+        <button id="open-gallery-btn" class="btn-gold" data-ro="Explorează Galeria" data-en="Explore Gallery">Explorează Galeria</button>
+    </div>
+
+  </main>
+
+  <footer>© 2026 L'TAVOLA • EXPERIENȚĂ PRIVATE DINING</footer>
+
+  <div id="gallery-modal" class="gallery-modal">
+    <span class="close-btn">&times;</span>
+    <div class="slideshow-container">
+        <div class="slide active"><img src="1.png" alt="1"></div>
+        <div class="slide"><img src="2.png" alt="2"></div>
+        <div class="slide"><img src="3.png" alt="3"></div>
+        <div class="slide"><img src="4.png" alt="4"></div>
+        <div class="slide"><img src="5.png" alt="5"></div>
+        <a class="prev" id="prev-slide">&#10094;</a>
+        <a class="next" id="next-slide">&#10095;</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const langBtn = document.getElementById('lang-switch');
+        langBtn.onclick = () => {
+            const isRo = langBtn.innerText === 'EN';
+            langBtn.innerText = isRo ? 'RO' : 'EN';
+            const lang = isRo ? 'en' : 'ro';
+            document.querySelectorAll('[data-ro]').forEach(el => { el.innerText = el.getAttribute('data-' + lang); });
+        };
+
+        const modal = document.getElementById('gallery-modal');
+        const slides = document.querySelectorAll('.slide');
+        let currentIdx = 0;
+
+        document.getElementById('open-gallery-btn').onclick = () => { 
+            modal.style.display = 'flex'; 
+            setTimeout(() => modal.classList.add('show'), 10); 
+            document.body.style.overflow = 'hidden'; 
+        };
+        
+        document.querySelector('.close-btn').onclick = () => { 
+            modal.classList.remove('show'); 
+            setTimeout(() => modal.style.display = 'none', 500); 
+            document.body.style.overflow = ''; 
+        };
+
+        const showSlide = (n) => {
+            slides[currentIdx].classList.remove('active');
+            currentIdx = (n + slides.length) % slides.length;
+            slides[currentIdx].classList.add('active');
+        };
+
+        document.getElementById('prev-slide').onclick = (e) => { e.stopPropagation(); showSlide(currentIdx - 1); };
+        document.getElementById('next-slide').onclick = (e) => { e.stopPropagation(); showSlide(currentIdx + 1); };
+        
+        modal.onclick = (e) => { if (e.target === modal) document.querySelector('.close-btn').onclick(); };
+    });
+  </script>
+</body>
+</html>

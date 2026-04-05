@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MENIU | L'TAVOLA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-food: #fdfcf9;      
+      --bg-drinks: #252525;    
+      --gold: #b2945e;
+      --text-dark: #000000;
+      --text-dim: #666666;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none !important; outline: none; }
+    body { background-color: var(--bg-food); font-family: 'Montserrat', sans-serif !important; color: var(--text-dark); transition: background-color 0.6s ease, color 0.6s ease; -webkit-font-smoothing: antialiased; }
+
+    .navbar { 
+        position: fixed; top: 0; width: 100%; 
+        padding: 25px 5%; display: flex; 
+        justify-content: space-between; align-items: center; 
+        z-index: 1000; background: rgba(253, 252, 249, 0.98);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .nav-logo { font-family: 'Marcellus', serif !important; font-size: 1.1rem; letter-spacing: 5px; color: var(--text-dark); text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; }
+    .nav-links a { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dark); margin-left: 25px; font-weight: 600; }
+    .lang-btn { background: transparent; border: 1px solid var(--text-dark); padding: 5px 10px; cursor: pointer; font-size: 0.55rem; margin-left: 20px; color: var(--text-dark); font-family: 'Montserrat'; }
+
+    .menu-container { max-width: 850px; margin: 160px auto 100px; padding: 0 5%; }
+    .menu-header { text-align: center; margin-bottom: 40px; }
+    .section-subtitle { font-size: 0.55rem; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 10px; }
+    .menu-header h1 { font-family: 'Marcellus', serif !important; font-size: 2.5rem; letter-spacing: 10px; text-transform: uppercase; }
+
+    .menu-tabs { display: flex; justify-content: center; gap: 40px; margin: 40px 0 60px; }
+    .tab-btn { background: transparent; border: none; font-family: 'Marcellus', serif; font-size: 1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim); cursor: pointer; padding-bottom: 8px; border-bottom: 1px solid transparent; }
+    .tab-btn.active { color: var(--text-dark); border-bottom-color: var(--gold); }
+
+    .menu-content { display: none; opacity: 0; }
+    .menu-content.active { display: block; opacity: 1; animation: fadeIn 0.8s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .category-title { font-family: 'Marcellus', serif !important; font-size: 1.1rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); text-align: center; margin: 80px 0 40px; }
+
+    .menu-item { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 35px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 15px; }
+    .item-info h3 { font-family: 'Marcellus', serif !important; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 5px; }
+    .item-info p { font-size: 0.7rem; color: var(--text-dim); font-style: italic; }
+    .item-price { font-family: 'Marcellus', serif !important; font-size: 0.95rem; margin-left: 20px; }
+
+    .cellar-box { background-color: #1a1a1a; padding: 100px 10%; margin: 100px -10%; text-align: center; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); color: #fff; }
+    .cellar-box h2 { font-family: 'Marcellus', serif !important; color: var(--gold); font-size: 1.6rem; letter-spacing: 12px; margin-bottom: 10px; }
+    .cellar-note { font-size: 0.6rem; letter-spacing: 5px; color: #555; text-transform: uppercase; margin-bottom: 60px; display: block; }
+    
+    .cellar-box .menu-item { display: grid; grid-template-columns: 1fr auto; align-items: center; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 35px; gap: 20px; }
+    .cellar-box .item-info { text-align: left; }
+    .cellar-box .item-info h3, .cellar-box .item-price { color: #fff !important; }
+    .cellar-box .item-price { margin-left: 0; text-align: right; min-width: 50px; }
+
+    body.dark-mode { background-color: var(--bg-drinks); color: #fff; }
+    body.dark-mode .navbar { background: rgba(30, 30, 30, 0.98); border-bottom-color: rgba(255,255,255,0.05); }
+    body.dark-mode .nav-logo, body.dark-mode .nav-links a, body.dark-mode .lang-btn, body.dark-mode .menu-header h1 { color: #fff !important; }
+    body.dark-mode .lang-btn { border-color: #fff; }
+    body.dark-mode .tab-btn.active { color: #fff !important; }
+    body.dark-mode .menu-item { border-bottom-color: rgba(255,255,255,0.05); }
+    body.dark-mode .item-info p { color: #aaa; }
+
+    .footer { text-align: center; padding: 80px 0; border-top: 1px solid rgba(0,0,0,0.05); opacity: 0.5; font-size: 0.55rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 50px; }
+
+    /* MODIFICĂRI PENTRU TELEFON */
+    @media (max-width: 600px) {
+        .navbar { 
+            padding: 20px 5% !important; 
+            flex-direction: column !important; 
+            align-items: center !important; 
+            justify-content: center !important;
+            gap: 15px !important;
+            text-align: center !important;
+        }
+        .nav-logo { margin-bottom: 5px !important; }
+        .nav-links { 
+            width: 100% !important;
+            justify-content: center !important; 
+            gap: 15px !important; 
+        }
+        .nav-links a, .lang-btn { 
+            margin-left: 0 !important; 
+            margin: 0 10px !important;
+        }
+        .menu-container { margin: 150px auto 60px !important; }
+        .menu-header h1 { font-size: 1.8rem !important; letter-spacing: 6px !important; }
+        .menu-item { flex-direction: row !important; align-items: flex-start !important; gap: 10px !important; }
+        .item-info h3 { font-size: 0.8rem !important; text-align: left !important; }
+        .item-price { margin-left: auto !important; }
+    }
+  </style>
+</head>
+<body id="body">
+
+  <nav class="navbar" id="nav">
+    <a href="index.html" class="nav-logo">L'TAVOLA</a>
+    <div class="nav-links">
+      <a href="index.html" data-ro="Acasă" data-en="Home">Acasă</a>
+      <button id="lang-switch" class="lang-btn">EN</button>
+    </div>
+  </nav>
+
+  <section class="menu-container">
+    <div class="menu-header">
+      <span class="section-subtitle" data-ro="Experiență Culinară" data-en="Culinary Experience">Experiență Culinară</span>
+      <h1 data-ro="MENIU" data-en="MENU">MENIU</h1>
+      
+      <div class="menu-tabs">
+        <button class="tab-btn active" id="tab-food" data-ro="Mâncare" data-en="Food">Mâncare</button>
+        <button class="tab-btn" id="tab-drinks" data-ro="Băuturi" data-en="Drinks">Băuturi</button>
+      </div>
+    </div>
+
+    <div id="food-section" class="menu-content active">
+        <h2 class="category-title" data-ro="Antipasti" data-en="Appetizers">Antipasti</h2>
+        <div class="menu-item"><div class="item-info"><h3 data-ro="Burrata Arrostita" data-en="Roasted Burrata">Burrata Arrostita</h3><p data-ro="Roșii cherry, ulei extravirgin, busuioc." data-en="Cherry tomatoes, olive oil, basil.">Roșii cherry, ulei extravirgin, busuioc.</p></div><span class="item-price">48</span></div>
+        <div class="menu-item"><div class="item-info"><h3 data-ro="Carpaccio di Manzo" data-en="Beef Carpaccio">Carpaccio di Manzo</h3><p data-ro="Trufe negre, parmezan 24 luni, rucola." data-en="Black truffles, 24m parmesan, arugula.">Trufe negre, parmezan 24 luni, rucola.</p></div><span class="item-price">62</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Vitello Tonnato</h3><p data-ro="Vițel gătit lent, sos de ton și capere." data-en="Slow-cooked veal, tuna and caper sauce.">Vițel gătit lent, sos de ton și capere.</p></div><span class="item-price">58</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Calamari Fritti</h3><p data-ro="Calamari crocanți, sos aioli cu lămâie." data-en="Crispy calamari, lemon aioli sauce.">Calamari crocanți, sos aioli cu lămâie.</p></div><span class="item-price">55</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Bruschetta Pomodoro</h3><p data-ro="Roșii San Marzano, operă artizanală, busuioc." data-en="San Marzano tomatoes, artisan garlic, basil.">Roșii San Marzano, usturoi, busuioc.</p></div><span class="item-price">35</span></div>
+        <div class="menu-item"><div class="item-info"><h3 data-ro="Zuppa di Pesce" data-en="Seafood Soup">Zuppa di Pesce</h3><p data-ro="Fructe de mare, roșii cherry, pâine prăjită." data-en="Seafood, cherry tomatoes, toasted bread.">Fructe de mare, roșii cherry, pâine prăjită.</p></div><span class="item-price">65</span></div>
+
+        <h2 class="category-title" data-ro="Primi Piatti" data-en="Pasta & Risotto">Primi Piatti</h2>
+        <div class="menu-item"><div class="item-info"><h3>Tagliatelle al Tartufo</h3><p data-ro="Paste de casă, trufe proaspete, unt artizanal." data-en="Homemade pasta, fresh truffles, artisan butter.">Paste de casă, trufe proaspete, unt artizanal.</p></div><span class="item-price">58</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Carbonara Autentica</h3><p data-ro="Guanciale, gălbenuș bio, Pecorino Romano." data-en="Guanciale, organic egg yolk, Pecorino Romano.">Guanciale, gălbenuș bio, Pecorino Romano.</p></div><span class="item-price">52</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Risotto Frutti di Mare</h3><p data-ro="Orez Carnaroli, fructe de mare, șofran." data-en="Carnaroli rice, seafood, saffron.">Orez Carnaroli, fructe de mare, șofran.</p></div><span class="item-price">75</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Lasagna della Nonna</h3><p data-ro="Ragu de vită (8 ore), bechamel." data-en="Beef ragu (8 hours), bechamel.">Ragu de vită (8 ore), bechamel.</p></div><span class="item-price">55</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Pappardelle al Cinghiale</h3><p data-ro="Ragu de mistreț, ierburi aromatice." data-en="Wild boar ragu, aromatic herbs.">Ragu de mistreț, ierburi aromatice.</p></div><span class="item-price">65</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Gnocchi Sorrentina</h3><p data-ro="Mozzarella bufala, sos roșii San Marzano." data-en="Buffalo mozzarella, tomato sauce.">Mozzarella bufala, sos roșii San Marzano.</p></div><span class="item-price">48</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Spaghetti alle Vongole</h3><p data-ro="Vongole veraci, usturoi, pătrunjel." data-en="Vongole veraci, garlic, parsley.">Vongole veraci, usturoi, pătrunjel.</p></div><span class="item-price">68</span></div>
+
+        <h2 class="category-title" data-ro="Secondi Piatti" data-en="Main Courses">Secondi Piatti</h2>
+        <div class="menu-item"><div class="item-info"><h3>Cotoletta Milanese</h3><p data-ro="Antricot vițel, pesmet panko, lămâie." data-en="Veal, panko crumbs, lemon.">Antricot vițel, pesmet panko, lămâie.</p></div><span class="item-price">95</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Branzino al Sale</h3><p data-ro="Biban mare în crustă de sare, sparanghel." data-en="Sea bass in salt crust, asparagus.">Biban mare în crustă de sare, sparanghel.</p></div><span class="item-price">88</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Filetto di Manzo</h3><p data-ro="Mușchi vită, sos vin roșu, piure trufe." data-en="Beef fillet, red wine sauce, truffle mash.">Mușchi vită, sos vin roșu, piure trufe.</p></div><span class="item-price">120</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Osso Buco</h3><p data-ro="Rasol vițel, risotto milanese." data-en="Veal shank, risotto milanese.">Rasol vițel, risotto milanese.</p></div><span class="item-price">92</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Tagliata di Manzo</h3><p data-ro="Vrăbioară vită, rucola, parmezan." data-en="Beef sirloin, arugula, parmesan.">Vrăbioară vită, rucola, parmezan.</p></div><span class="item-price">110</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Polpo alla Griglia</h3><p data-ro="Caracatiță la grătar, cartofi, măsline." data-en="Grilled octopus, potatoes, olives.">Caracatiță la grătar, cartofi, măsline.</p></div><span class="item-price">105</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Petto d'Anatra</h3><p data-ro="Piept de rață, sos de fructe de pădure." data-en="Duck breast, wild berries sauce.">Piept de rață, sos de fructe de pădure.</p></div><span class="item-price">85</span></div>
+
+        <h2 class="category-title" data-ro="Contorni" data-en="Sides">Contorni</h2>
+        <div class="menu-item"><div class="item-info"><h3 data-ro="Asparagi alla Griglia" data-en="Grilled Asparagus">Asparagi alla Griglia</h3></div><span class="item-price">28</span></div>
+        <div class="menu-item"><div class="item-info"><h3 data-ro="Patate al Forno" data-en="Roasted Potatoes">Patate al Forno</h3><p data-ro="Rozmarin, usturoi." data-en="Rosemary, garlic.">Rozmarin, usturoi.</p></div><span class="item-price">22</span></div>
+        <div class="menu-item"><div class="item-info"><h3 data-ro="Insalata Mista" data-en="Mixed Salad">Insalata Mista</h3></div><span class="item-price">20</span></div>
+        <div class="menu-item"><div class="item-info"><h3 data-ro="Spinaci Saltati" data-en="Sautéed Spinach">Spinaci Saltati</h3></div><span class="item-price">24</span></div>
+
+        <h2 class="category-title" data-ro="Dolci" data-en="Desserts">Dolci</h2>
+        <div class="menu-item"><div class="item-info"><h3>Tiramisu Tradizionale</h3><p data-ro="Mascarpone bio, espresso, pișcoturi." data-en="Bio mascarpone, espresso.">Mascarpone bio, espresso, pișcoturi.</p></div><span class="item-price">35</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Cannoli Siciliani</h3><p data-ro="Ricotta oaie, fistic de Bronte." data-en="Sheep ricotta, Bronte pistachio.">Ricotta oaie, fistic de Bronte.</p></div><span class="item-price">30</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Panna Cotta</h3><p data-ro="Fructe pădure, vanilie Madagascar." data-en="Mixed berries, vanilla.">Fructe pădure, vanilie Madagascar.</p></div><span class="item-price">32</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Torta Caprese</h3><p data-ro="Ciocolată neagră, migdale." data-en="Dark chocolate, almonds.">Ciocolată neagră, migdale.</p></div><span class="item-price">34</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Affogato al Caffè</h3><p data-ro="Înghețată vanilie artizanală." data-en="Handmade vanilla gelato.">Înghețată vanilie artizanală.</p></div><span class="item-price">28</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Sorbetto al Limone</h3><p data-ro="Lămâi de Amalfi." data-en="Amalfi lemons.">Lămâi de Amalfi.</p></div><span class="item-price">26</span></div>
+    </div>
+
+    <div id="drinks-section" class="menu-content">
+        <h2 class="category-title" data-ro="Cocktails & Spritz" data-en="Cocktails & Spritz">Cocktails & Spritz</h2>
+        <div class="menu-item"><div class="item-info"><h3>Negroni Classico</h3><p>Gin Botanist, Campari, Vermouth Rosso.</p></div><span class="item-price">42</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Aperol Spritz</h3><p>Aperol, Prosecco, Soda.</p></div><span class="item-price">38</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Limoncello Spritz</h3><p>Limoncello artizanal, mentă, Prosecco.</p></div><span class="item-price">40</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Espresso Martini</h3><p>Vodka, Espresso, Lichior Cafea.</p></div><span class="item-price">45</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Bellini</h3><p>Piure piersici, Prosecco Superiore.</p></div><span class="item-price">38</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Old Fashioned</h3><p>Bourbon, Bitter, Zahăr brun.</p></div><span class="item-price">48</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Gin & Tonic Premium</h3><p>Hendrick's Gin, Fever Tree Tonic.</p></div><span class="item-price">46</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Amaretto Sour</h3><p>Disaronno, lămâie, albuș.</p></div><span class="item-price">42</span></div>
+
+        <h2 class="category-title" data-ro="Vini al Bicchiere" data-en="Wines by the Glass">Vini al Bicchiere</h2>
+        <div class="menu-item"><div class="item-info"><h3 data-ro="Prosecco DOCG" data-en="Prosecco DOCG">Prosecco DOCG</h3><p>Valdobbiadene, proaspăt, floral.</p></div><span class="item-price">35</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Pinot Grigio</h3><p>Alto Adige, sec și mineral.</p></div><span class="item-price">32</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Vermentino di Sardegna</h3><p>Sărat, citric, elegant.</p></div><span class="item-price">36</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Chianti Classico DOCG</h3><p>Toscana, note de cireșe.</p></div><span class="item-price">38</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Primitivo di Manduria</h3><p>Corp plin, fructe roșii coapte.</p></div><span class="item-price">42</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Rosé d'Abruzzo</h3><p>Note delicate de căpșuni.</p></div><span class="item-price">34</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Franciacorta Brut</h3><p>Metoda tradițională italiană.</p></div><span class="item-price">55</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Gavi di Gavi</h3><p>Piemonte, floral și crocant.</p></div><span class="item-price">45</span></div>
+
+        <div class="cellar-box">
+            <h2 data-ro="THE CELLAR" data-en="THE CELLAR">THE CELLAR</h2>
+            <span class="cellar-note" data-ro="Selecții Rare & Distilate" data-en="Rare Collections & Spirits">Selecții Rare & Distilate</span>
+            <div class="menu-item"><div class="item-info"><h3>Sassicaia 2019</h3><p>Tenuta San Guido, Bolgheri. (Bottle)</p></div><span class="item-price">1850</span></div>
+            <div class="menu-item"><div class="item-info"><h3>Ornellaia Bolgheri</h3><p>Superiore, Vintage 2018. (Bottle)</p></div><span class="item-price">1600</span></div>
+            <div class="menu-item"><div class="item-info"><h3>Tignanello Antinori</h3><p>Pionierul Super Toscan. (Pahar)</p></div><span class="item-price">145</span></div>
+            <div class="menu-item"><div class="item-info"><h3>Macallan 18Y Sherry Oak</h3><p>Single Malt de colecție. (40ml)</p></div><span class="item-price">210</span></div>
+            <div class="menu-item"><div class="item-info"><h3>Grappa di Sassicaia</h3><p>Distilat în butoaie stejar. (40ml)</p></div><span class="item-price">85</span></div>
+        </div>
+
+        <h2 class="category-title" data-ro="Răcoritoare & Cafea" data-en="Softs & Coffee">Răcoritoare & Cafea</h2>
+        <div class="menu-item"><div class="item-info"><h3>S.Pellegrino</h3><p>Apă minerală 750ml</p></div><span class="item-price">26</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Acqua Panna</h3><p>Apă plată 750ml</p></div><span class="item-price">26</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Espresso Origin</h3><p>Ethiopia / Brazilia.</p></div><span class="item-price">16</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Double Espresso</h3></div><span class="item-price">24</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Cappuccino Bio</h3><p data-ro="Lapte artizanal, catifelat." data-en="Artisan, velvety milk.">Lapte artizanal, catifelat.</p></div><span class="item-price">22</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Caffè Latte</h3></div><span class="item-price">24</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Sanpellegrino Aranciata</h3><p>250ml</p></div><span class="item-price">18</span></div>
+        <div class="menu-item"><div class="item-info"><h3>Coca-Cola / Zero</h3><p>250ml</p></div><span class="item-price">15</span></div>
+        <div class="menu-item"><div class="item-info"><h3 data-ro="Limonadă cu Miere" data-en="Honey Lemonade">Limonadă cu Miere</h3><p>Mentă proaspătă.</p></div><span class="item-price">24</span></div>
+        <div class="menu-item"><div class="item-info"><h3 data-ro="Ceai Bio Artizanal" data-en="Artisan Organic Tea">Ceai Bio Artizanal</h3></div><span class="item-price">18</span></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p data-ro="Origine Controlată • Prețuri în RON" data-en="Controlled Origin • Prices in RON">Origine Controlată • Prețuri în RON</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const foodBtn = document.getElementById('tab-food');
+        const drinksBtn = document.getElementById('tab-drinks');
+        const foodSec = document.getElementById('food-section');
+        const drinksSec = document.getElementById('drinks-section');
+        const body = document.getElementById('body');
+        const langBtn = document.getElementById('lang-switch');
+
+        foodBtn.addEventListener('click', function() {
+            foodBtn.classList.add('active'); 
+            drinksBtn.classList.remove('active');
+            foodSec.classList.add('active'); 
+            drinksSec.classList.remove('active');
+            body.classList.remove('dark-mode');
+        });
+
+        drinksBtn.addEventListener('click', function() {
+            drinksBtn.classList.add('active'); 
+            foodBtn.classList.remove('active');
+            drinksSec.classList.add('active'); 
+            foodSec.classList.remove('active');
+            body.classList.add('dark-mode');
+        });
+
+        langBtn.addEventListener('click', function() {
+            const isRo = langBtn.innerText === 'EN';
+            langBtn.innerText = isRo ? 'RO' : 'EN';
+            const lang = isRo ? 'en' : 'ro';
+            document.querySelectorAll('[data-ro]').forEach(function(el) {
+                el.innerText = el.getAttribute('data-' + lang);
+            });
+        });
+    });
+  </script>
+</body>
+</html>

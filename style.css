@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Montserrat:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg-light: #fdfcf9;          
+  --bg-dark: #1a1a1a; 
+  --bg-drinks: #252525;         
+  --text-dark: #000000; /* Negru pur pentru contrast maxim pe bej */
+  --text-dim: #666666;
+  --gold-accent: #b2945e;   
+  --line-color: rgba(0, 0, 0, 0.1);
+  --font-heading: 'Marcellus', serif;
+  --font-body: 'Montserrat', sans-serif;
+}
+
+/* RESET & FONT FIX */
+* { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none !important; }
+html, body { 
+    width: 100%; 
+    background-color: var(--bg-light); 
+    font-family: var(--font-body) !important; 
+    color: var(--text-dark); 
+    -webkit-font-smoothing: antialiased; 
+}
+
+/* NAVBAR VIZIBILITATE */
+.navbar { 
+    position: absolute; top: 0; width: 100%; 
+    padding: 35px 5%; display: flex; 
+    justify-content: space-between; align-items: center; 
+    z-index: 1000; 
+}
+.nav-logo { 
+    font-family: var(--font-heading) !important; 
+    font-size: 1.1rem; letter-spacing: 6px; 
+    color: var(--text-dark) !important; /* Forțăm vizibilitatea */
+    text-transform: uppercase; 
+}
+.nav-links { display: flex; align-items: center; }
+.nav-links a, .lang-btn { 
+    font-family: var(--font-body) !important;
+    font-size: 0.6rem; text-transform: uppercase; 
+    letter-spacing: 2px; color: var(--text-dark) !important; 
+    margin-left: 25px; font-weight: 500;
+}
+.lang-btn { 
+    background: transparent; border: 1px solid var(--text-dark); 
+    padding: 6px 12px; cursor: pointer; opacity: 0.8;
+}
+
+/* INDEX HERO */
+.hero-full { 
+    height: 100vh; width: 100%;
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), 
+                url('image_0.png') center/cover;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.hero-brand-bold { 
+    font-family: var(--font-heading) !important; 
+    font-size: clamp(3rem, 10vw, 7.5rem); 
+    letter-spacing: 20px; text-transform: uppercase; 
+    color: #fff !important; 
+}
+
+/* MENU TABS */
+.tab-btn { 
+    background: transparent; border: none; 
+    font-family: var(--font-heading) !important; 
+    font-size: 1rem; letter-spacing: 4px; 
+    text-transform: uppercase; color: var(--text-dim); 
+    cursor: pointer; padding-bottom: 8px; border-bottom: 1px solid transparent; 
+}
+.tab-btn.active { color: var(--text-dark) !important; border-bottom-color: var(--gold-accent); }
+
+/* SPAȚIERE EGALĂ BĂUTURI (FIX) */
+.drinks-style { 
+    background-color: var(--bg-drinks); 
+    padding: 100px 10%; 
+    margin: 60px -10%; 
+    color: #fff; 
+}
+
+/* Spațiu egal deasupra și dedesubtul secțiunii CELLAR */
+.cellar-box { 
+    background-color: #1a1a1a; 
+    padding: 100px 10%; 
+    margin: 100px -5% 100px -5%; /* 100px sus și jos față de restul categoriilor */
+    text-align: center; 
+    border-top: 1px solid var(--gold-accent);
+    border-bottom: 1px solid var(--gold-accent);
+}
+
+.menu-category { margin-bottom: 100px; } /* Spațiu egal între toate categoriile standard */
+.menu-category:last-child { margin-bottom: 0; }
+
+.menu-category h2 { 
+    font-family: var(--font-heading) !important; 
+    color: var(--gold-accent); font-size: 1.1rem; 
+    letter-spacing: 4px; margin-bottom: 40px; text-align: center; 
+}
+
+/* ELEMENTE MENIU */
+.menu-item { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 35px; border-bottom: 1px solid var(--line-color); padding-bottom: 15px; }
+.menu-item-info h3 { font-family: var(--font-heading) !important; font-size: 0.9rem; text-transform: uppercase; }
+.menu-item-price { font-family: var(--font-heading) !important; font-size: 0.9rem; margin-left: 20px; }
+
+/* REGLAJ PENTRU MODUL DARK (Băuturi) */
+.drinks-style .nav-logo, .drinks-style .nav-links a, .drinks-style .lang-btn {
+    color: #fff !important;
+}
