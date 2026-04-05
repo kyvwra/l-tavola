@@ -6,50 +6,53 @@
   <title>CONCEPT | L'TAVOLA</title>
   <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root { --gold: #b2945e; --font-heading: 'Marcellus', serif; --font-body: 'Montserrat', sans-serif; --bg-dark: #1a1a1a; }
+    :root { 
+        --gold: #b2945e; 
+        --font-heading: 'Marcellus', serif; 
+        --font-body: 'Montserrat', sans-serif;
+        --bg-dark: #1a1a1a; 
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none !important; }
     body { background-color: var(--bg-dark); font-family: var(--font-body); color: #fff; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
+    /* NAVBAR */
     .navbar { position: fixed; top: 0; width: 100%; padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(26, 26, 26, 0.95); border-bottom: 1px solid rgba(255,255,255,0.05); }
     .nav-logo { font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 5px; color: #fff; text-transform: uppercase; }
     .nav-links { display: flex; align-items: center; }
-    .nav-text { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: #fff; margin-left: 25px; font-weight: 500; }
+    .nav-text { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: #fff; margin-left: 25px; font-weight: 500; transition: 0.3s; }
     .lang-btn { background: transparent; border: 1px solid #fff; padding: 5px 10px; cursor: pointer; font-size: 0.55rem; margin-left: 20px; color: #fff; }
 
+    /* HERO */
     .concept-hero { padding-top: 180px; padding-bottom: 80px; text-align: center; }
-    .hero-title { font-family: var(--font-heading); font-size: clamp(2rem, 10vw, 3.5rem); letter-spacing: 12px; text-transform: uppercase; color: #fff; }
+    .hero-title { font-family: var(--font-heading); font-size: clamp(2.5rem, 10vw, 4rem); letter-spacing: 12px; text-transform: uppercase; color: #fff; }
 
-    .concept-container { max-width: 900px; margin: 0 auto; padding: 0 5% 100px; text-align: center; }
+    /* CONTAINER TEXTE */
+    .concept-container { max-width: 800px; margin: 0 auto; padding: 0 5% 100px; text-align: center; }
     .concept-section { margin-bottom: 100px; }
     .concept-section h2 { font-family: var(--font-heading); font-size: 2rem; color: var(--gold); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 4px; }
     .concept-section p { font-size: 1rem; line-height: 2.2; color: #aaa; text-align: justify; }
 
     .quote-section { padding: 80px 10%; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 100px; }
-    .quote-section p { font-family: var(--font-heading); font-size: 1.6rem; color: #fff; font-style: italic; }
+    .quote-section p { font-family: var(--font-heading); font-size: 1.6rem; color: #fff; font-style: italic; opacity: 0.9; }
 
     .final-action { text-align: center; padding-bottom: 100px; }
     .btn-gold { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 18px 45px; font-family: var(--font-heading); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: 0.4s; }
 
-    /* CSS GALERIE REPARAT */
-    .gallery-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); opacity: 0; transition: 0.5s; justify-content: center; align-items: center; }
-    .gallery-modal.show { display: flex !important; opacity: 1; }
-    .slideshow-container { width: 85%; height: 80vh; position: relative; display: flex; justify-content: center; align-items: center; }
+    /* MODAL GALERIE - SIMPLIFICAT */
+    .gallery-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: #000; align-items: center; justify-content: center; }
+    .slideshow-container { width: 90%; height: 80vh; position: relative; display: flex; align-items: center; justify-content: center; }
     
-    /* Forțăm vizibilitatea slide-urilor */
-    .slide { position: absolute; top:0; left:0; width:100%; height:100%; display: none; justify-content: center; align-items: center; }
-    .slide.active { display: flex !important; }
+    .slide { display: none; width: 100%; height: 100%; align-items: center; justify-content: center; }
     .slide img { max-height: 100%; max-width: 100%; object-fit: contain; }
     
-    .close-btn { position: absolute; top: 30px; right: 30px; color: var(--gold); font-size: 40px; cursor: pointer; z-index: 3001; }
-    .prev, .next { position: absolute; top: 50%; color: var(--gold); font-size: 40px; cursor: pointer; padding: 20px; transform: translateY(-50%); z-index: 3000; user-select: none; }
-    .prev { left: -60px; } .next { right: -60px; }
+    .close-btn { position: absolute; top: 20px; right: 30px; color: var(--gold); font-size: 50px; cursor: pointer; z-index: 3001; }
+    .prev, .next { position: absolute; top: 50%; color: var(--gold); font-size: 50px; cursor: pointer; padding: 20px; transform: translateY(-50%); z-index: 3000; user-select: none; }
+    .prev { left: 10px; } .next { right: 10px; }
 
     @media (max-width: 850px) {
-        .navbar { flex-direction: column; align-items: center; padding: 20px 5%; gap: 15px; }
+        .navbar { flex-direction: column; padding: 20px 5%; gap: 15px; }
         .nav-links { justify-content: center; width: 100%; }
         .nav-text, .lang-btn { margin: 0 10px; }
-        .slideshow-container { width: 95%; }
-        .prev { left: 0; } .next { right: 0; }
     }
   </style>
 </head>
@@ -71,11 +74,22 @@
   <main class="concept-container">
     <div class="concept-section">
         <h2 data-ro="Rădăcini și Timp" data-en="Roots and Time">Rădăcini și Timp</h2>
-        <p data-ro="Povestea noastră nu a început în bucătărie..." data-en="Our story didn't begin in a kitchen...">Povestea noastră nu a început în bucătărie...</p>
+        <p data-ro="Povestea noastră nu a început în bucătărie, ci în jurul meselor lungi de duminică din inima Italiei, unde timpul se oprea în loc pentru a lăsa aromele să vorbească. L'TAVOLA s-a născut din dorința de a recupera acea liniște pierdută a cinei." 
+           data-en="Our story didn't begin in a kitchen, but around the long Sunday tables in Italy. L'TAVOLA was born from the desire to reclaim that lost silence of dinner.">
+           Povestea noastră nu a început în bucătărie, ci în jurul meselor lungi de duminică din inima Italiei, unde timpul se oprea în loc pentru a lăsa aromele să vorbească. L'TAVOLA s-a născut din dorința de a recupera acea liniște pierdută a cinei.
+        </p>
     </div>
 
     <div class="quote-section">
         <p>„Gastronomia este puntea fragilă între pământ și amintire.”</p>
+    </div>
+
+    <div class="concept-section">
+        <h2 data-ro="Alchimia Ingredientului" data-en="The Alchemy of Ingredients">Alchimia Ingredientului</h2>
+        <p data-ro="Istoria gustului nostru este scrisă în fiecare dimineață. Colaborăm cu mici ferme artizanale care păstrează tehnici de cultivare vechi de secole." 
+           data-en="The history of our taste is written every morning. We collaborate with small artisan farms that preserve centuries-old cultivation techniques.">
+           Istoria gustului nostru este scrisă în fiecare dimineață. Colaborăm cu mici ferme artizanale care păstrează tehnici de cultivare vechi de secole.
+        </p>
     </div>
 
     <div class="final-action">
@@ -86,7 +100,7 @@
   <div id="gallery-modal" class="gallery-modal">
     <span class="close-btn">&times;</span>
     <div class="slideshow-container">
-        <div class="slide active"><img src="imagini-galerie/1.png" alt="1"></div>
+        <div class="slide"><img src="imagini-galerie/1.png" alt="1"></div>
         <div class="slide"><img src="imagini-galerie/2.png" alt="2"></div>
         <div class="slide"><img src="imagini-galerie/3.png" alt="3"></div>
         <div class="slide"><img src="imagini-galerie/4.png" alt="4"></div>
@@ -108,47 +122,40 @@
             });
         };
 
-        // Galerie - LOGICĂ REPARATĂ
+        // Galerie logică stabilă
         const modal = document.getElementById('gallery-modal');
-        const openBtn = document.getElementById('open-gallery-btn');
-        const closeBtn = document.querySelector('.close-btn');
         const slides = document.querySelectorAll('.slide');
         let currentIdx = 0;
 
-        openBtn.addEventListener('click', () => {
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('show'), 10);
-            document.body.style.overflow = 'hidden';
-            updateSlides();
-        });
-
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('show');
-            setTimeout(() => modal.style.display = 'none', 500);
-            document.body.style.overflow = '';
-        });
-
-        function updateSlides() {
-            slides.forEach((slide, index) => {
-                slide.style.display = (index === currentIdx) ? 'flex' : 'none';
-                if(index === currentIdx) slide.classList.add('active');
-                else slide.classList.remove('active');
-            });
+        function showSlide(index) {
+            slides.forEach(s => s.style.display = 'none');
+            slides[index].style.display = 'flex';
         }
+
+        document.getElementById('open-gallery-btn').onclick = () => {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            showSlide(currentIdx);
+        };
+
+        document.querySelector('.close-btn').onclick = () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        };
 
         document.getElementById('prev-slide').onclick = (e) => {
             e.stopPropagation();
             currentIdx = (currentIdx - 1 + slides.length) % slides.length;
-            updateSlides();
+            showSlide(currentIdx);
         };
 
         document.getElementById('next-slide').onclick = (e) => {
             e.stopPropagation();
             currentIdx = (currentIdx + 1) % slides.length;
-            updateSlides();
+            showSlide(currentIdx);
         };
 
-        modal.onclick = (e) => { if (e.target === modal) closeBtn.click(); };
+        modal.onclick = (e) => { if (e.target === modal) document.querySelector('.close-btn').click(); };
     });
   </script>
 </body>
